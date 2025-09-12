@@ -10,6 +10,33 @@ class AuthScreen extends ConsumerStatefulWidget {
 }
 
 class _AuthScreenState extends ConsumerState<AuthScreen> {
+  Future<void> _resetPassword() async {
+    final email = _emailController.text.trim();
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter your email to reset password.'),
+        ),
+      );
+      return;
+    }
+    setState(() => _loading = true);
+    try {
+      await ref.read(authRepositoryProvider).sendPasswordResetEmail(email);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Password reset email sent!')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: $e')));
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLogin = true;
@@ -65,6 +92,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                     )
                   : Text(_isLogin ? 'Sign In' : 'Register'),
             ),
+            if (_isLogin)
+              TextButton(
+                onPressed: _loading ? null : _resetPassword,
+                child: const Text('Forgot Password?'),
+              ),
             TextButton(
               onPressed: _loading
                   ? null

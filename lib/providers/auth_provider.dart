@@ -12,6 +12,10 @@ final authStateProvider = StreamProvider<User?>((ref) {
 });
 
 class AuthRepository {
+  Future<void> sendPasswordResetEmail(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
+  }
+
   final FirebaseAuth _auth;
   AuthRepository(this._auth);
 
