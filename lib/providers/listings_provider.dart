@@ -1,6 +1,12 @@
-// Listings provider placeholder
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../repositories/listing_repository.dart';
+import '../models/listing.dart';
 
-final listingsProvider = Provider((ref) {
-  // TODO: Implement listings logic
+final listingRepositoryProvider = Provider<ListingRepository>(
+  (ref) => ListingRepository(),
+);
+
+final listingsProvider = FutureProvider<List<Listing>>((ref) async {
+  final repo = ref.watch(listingRepositoryProvider);
+  return repo.fetchListings();
 });
