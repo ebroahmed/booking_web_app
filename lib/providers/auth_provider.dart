@@ -1,9 +1,10 @@
-
 // Placeholder: In a real app, this would be a StreamProvider or FutureProvider for FirebaseAuth user
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-final firebaseAuthProvider = Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
+final firebaseAuthProvider = Provider<FirebaseAuth>(
+  (ref) => FirebaseAuth.instance,
+);
 
 final authStateProvider = StreamProvider<User?>((ref) {
   final auth = ref.watch(firebaseAuthProvider);
@@ -15,12 +16,18 @@ class AuthRepository {
   AuthRepository(this._auth);
 
   Future<User?> signIn(String email, String password) async {
-    final result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+    final result = await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
     return result.user;
   }
 
   Future<User?> register(String email, String password) async {
-    final result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+    final result = await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
     return result.user;
   }
 

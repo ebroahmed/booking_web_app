@@ -26,9 +26,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       }
       if (mounted) Navigator.pop(context);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: $e')));
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -58,16 +58,22 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             ElevatedButton(
               onPressed: _loading ? null : _submit,
               child: _loading
-                  ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
                   : Text(_isLogin ? 'Sign In' : 'Register'),
             ),
             TextButton(
               onPressed: _loading
                   ? null
                   : () => setState(() => _isLogin = !_isLogin),
-              child: Text(_isLogin
-                  ? 'Don\'t have an account? Register'
-                  : 'Already have an account? Sign In'),
+              child: Text(
+                _isLogin
+                    ? 'Don\'t have an account? Register'
+                    : 'Already have an account? Sign In',
+              ),
             ),
           ],
         ),
