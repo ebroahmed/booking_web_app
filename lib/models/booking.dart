@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Booking {
   final String id;
   final String userId;
@@ -14,11 +16,20 @@ class Booking {
   });
 
   factory Booking.fromMap(String id, Map<String, dynamic> data) {
+    final dynamic dateField = data['date'];
+    DateTime dateValue;
+    if (dateField is Timestamp) {
+      dateValue = dateField.toDate();
+    } else if (dateField is DateTime) {
+      dateValue = dateField;
+    } else {
+      dateValue = DateTime.now();
+    }
     return Booking(
       id: id,
       userId: data['userId'] ?? '',
       listingId: data['listingId'] ?? '',
-      date: (data['date'] as Timestamp).toDate(),
+      date: dateValue,
       status: data['status'] ?? 'pending',
     );
   }
@@ -27,7 +38,7 @@ class Booking {
     return {
       'userId': userId,
       'listingId': listingId,
-      'date': date,
+      'date': Timestamp.fromDate(date),
       'status': status,
     };
   }
