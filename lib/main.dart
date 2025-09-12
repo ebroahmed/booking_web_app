@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'screens/home_screen.dart';
 import 'models/listing.dart';
 import 'screens/listing_detail_screen.dart';
+import 'screens/profile_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +31,9 @@ class MyApp extends StatelessWidget {
           return MaterialPageRoute(
             builder: (_) => ListingDetailScreen(listing: listing),
           );
+        }
+        if (settings.name == '/profile') {
+          return MaterialPageRoute(builder: (_) => const ProfileScreen());
         }
         return null;
       },

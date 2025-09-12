@@ -31,28 +31,33 @@ class HomeScreen extends ConsumerWidget {
                   },
                 );
               } else {
-                return PopupMenuButton<String>(
-                  onSelected: (value) async {
-                    if (value == 'logout') {
-                      await ref.read(authRepositoryProvider).signOut();
-                    }
-                  },
-                  itemBuilder: (context) => [
-                    PopupMenuItem<String>(
-                      value: 'logout',
-                      child: const Text('Sign Out'),
+                return Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.account_circle),
+                      tooltip: 'Profile',
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/profile');
+                      },
+                    ),
+                    PopupMenuButton<String>(
+                      onSelected: (value) async {
+                        if (value == 'logout') {
+                          await ref.read(authRepositoryProvider).signOut();
+                        }
+                      },
+                      itemBuilder: (context) => [
+                        PopupMenuItem<String>(
+                          value: 'logout',
+                          child: const Text('Sign Out'),
+                        ),
+                      ],
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(user.email ?? 'User'),
+                      ),
                     ),
                   ],
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.account_circle),
-                        const SizedBox(width: 8),
-                        Text(user.email ?? 'User'),
-                      ],
-                    ),
-                  ),
                 );
               }
             },
