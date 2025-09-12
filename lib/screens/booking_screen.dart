@@ -6,7 +6,7 @@ import '../models/booking.dart';
 
 class BookingScreen extends ConsumerStatefulWidget {
   final Listing listing;
-  const BookingScreen({Key? key, required this.listing}) : super(key: key);
+  const BookingScreen({super.key, required this.listing});
 
   @override
   ConsumerState<BookingScreen> createState() => _BookingScreenState();
