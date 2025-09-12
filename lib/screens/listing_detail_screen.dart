@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/listing.dart';
+import 'booking_screen.dart';
 
 class ListingDetailScreen extends StatelessWidget {
   final Listing listing;
@@ -39,7 +40,12 @@ class ListingDetailScreen extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: listing.available
                     ? () {
-                        // TODO: Navigate to booking screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => BookingScreen(listing: listing),
+                          ),
+                        );
                       }
                     : null,
                 child: const Text('Book Now'),
