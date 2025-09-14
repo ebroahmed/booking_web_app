@@ -14,6 +14,7 @@ class HomeScreen extends ConsumerWidget {
     final listingsAsync = ref.watch(listingsProvider);
     final authAsync = ref.watch(authStateProvider);
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Booking Web App'),
         actions: [
@@ -78,11 +79,30 @@ class HomeScreen extends ConsumerWidget {
           if (listings.isEmpty) {
             return const Center(child: Text('No listings available.'));
           }
-          return ListView.builder(
-            itemCount: listings.length,
-            itemBuilder: (context, index) {
-              final Listing listing = listings[index];
-              return ListingCard(listing: listing);
+          // Responsive grid: 1 col mobile, 2 tablet, 4 desktop
+          int getCrossAxisCount(double width) {
+            if (width >= 1200) return 4; // desktop
+            if (width >= 600) return 2; // tablet
+            return 1; // mobile
+          }
+
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              final crossAxisCount = getCrossAxisCount(constraints.maxWidth);
+              return GridView.builder(
+                padding: const EdgeInsets.all(16),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: 3 / 4,
+                ),
+                itemCount: listings.length,
+                itemBuilder: (context, index) {
+                  final Listing listing = listings[index];
+                  return ListingCard(listing: listing);
+                },
+              );
             },
           );
         },

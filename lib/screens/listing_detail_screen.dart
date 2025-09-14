@@ -9,6 +9,7 @@ class ListingDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(title: Text(listing.title)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -18,7 +19,8 @@ class ListingDetailScreen extends StatelessWidget {
             Center(
               child: Image.network(
                 listing.imageUrl,
-                height: 200,
+                width: double.infinity,
+                height: 400,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) =>
                     const Icon(Icons.image, size: 100),
